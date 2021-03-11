@@ -9,6 +9,7 @@ from utils import debug, try_cache
 
 from model import Seq2SeqModel
 
+
 def create_model(sess, data, args, embed):
 	with tf.variable_scope(args.name):
 		model = Seq2SeqModel(data, args, embed)
@@ -16,11 +17,11 @@ def create_model(sess, data, args, embed):
 		latest_dir = '%s/checkpoint_latest' % args.model_dir
 		best_dir = '%s/checkpoint_best' % args.model_dir
 		if not os.path.isdir(args.model_dir):
-			os.mkdir(args.model_dir)
+			os.makedirs(args.model_dir, 0o755)
 		if not os.path.isdir(latest_dir):
-			os.mkdir(latest_dir)
+			os.makedirs(latest_dir, 0o755)
 		if not os.path.isdir(best_dir):
-			os.mkdir(best_dir)
+			os.makedirs(best_dir, 0o755)
 		if tf.train.get_checkpoint_state(latest_dir, args.name) and args.restore == "last":
 			print("Reading model parameters from %s" % tf.train.latest_checkpoint(latest_dir, args.name))
 			model.latest_saver.restore(sess, tf.train.latest_checkpoint(latest_dir, args.name))
@@ -56,7 +57,7 @@ def main(args):
 	wordvec_class = TencentChinese
 	if args.cache:
 		if not os.path.isdir(args.cache_dir):
-			os.mkdir(args.cache_dir)
+			os.makedirs(args.cache_dir, 0o755)
 		data = try_cache(data_class, (args.datapath,), args.cache_dir)
 		vocab = data.vocab_list
 		embed = try_cache(lambda wv, ez, vl: wordvec_class(wv).load_matrix(ez, vl),
@@ -70,7 +71,7 @@ def main(args):
 
 	embed = np.array(embed, dtype = np.float32)
 	if not os.path.isdir(args.out_dir):
-		os.mkdir(args.out_dir)
+		os.makedirs(args.out_dir, 0o755)
 
 	with tf.Session(config=config) as sess:
 		model = create_model(sess, data, args, embed)

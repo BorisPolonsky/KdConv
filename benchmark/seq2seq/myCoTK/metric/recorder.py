@@ -4,9 +4,11 @@ Containing some recorders.
 import numpy as np
 from cotk.metric import MetricBase
 
+
 class SingleTurnResponseRecorder(MetricBase):
     _name = 'SingleTurnResponseRecorder'
     _version = 1
+
     def __init__(self, dataloader, resp_allvocabs_key="resp_allvocabs", gen_key="gen"):
         super().__init__(self._name, self._version)
         self.dataloader = dataloader
@@ -33,7 +35,7 @@ class SingleTurnResponseRecorder(MetricBase):
             self.gen_list.append(self.dataloader.convert_ids_to_tokens(gen[i]))
 
     def close(self):
-        '''
+        """
         Returns:
             (dict): Return a dict which contains
 
@@ -46,7 +48,7 @@ class SingleTurnResponseRecorder(MetricBase):
             * **gen**: A list of generated sentences. A jagged 2-d array of int.
               Size:``[batch_size, ~sent_length]``, where "~" means different
               sizes in this dimension is allowed.
-        '''
+        """
         res = super().close()
         res.update({"resp": self.resp_list, "gen": self.gen_list})
         return res

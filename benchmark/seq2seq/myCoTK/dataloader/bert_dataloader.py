@@ -1,6 +1,6 @@
-'''
+"""
 A module for BERT dataloader
-'''
+"""
 from cotk.dataloader import BERTLanguageProcessingBase
 from cotk._utils import trim_before_target
 import numpy as np
@@ -16,7 +16,7 @@ import random
 
 from cotk.metric import MetricChain, SingleTurnDialogRecorder
 from ..metric import BleuCorpusMetric, SingleTurnDistinct
-from pytorch_pretrained_bert.tokenization import BertTokenizer
+from transformers import BertTokenizer
 
 import jieba
 from gensim.summarization import bm25
@@ -44,8 +44,8 @@ class MyBERTRetrieval(BERTLanguageProcessingBase):
             self.cpu_count = multiprocessing.cpu_count()
 
     def _load_data(self):
-        r'''Loading dataset, invoked by `BERTLanguageProcessingBase.__init__`
-        '''
+        r"""Loading dataset, invoked by `BERTLanguageProcessingBase.__init__`
+        """
         print('begin load data...')
         begin_time = time.time()
         origin_data = {}
@@ -207,7 +207,7 @@ class MyBERTRetrieval(BERTLanguageProcessingBase):
         return res
 
     def get_inference_metric(self, gen_key="gen"):
-        '''Get metrics for inference.
+        """Get metrics for inference.
 
         It contains:
 
@@ -220,7 +220,7 @@ class MyBERTRetrieval(BERTLanguageProcessingBase):
                 :class:`.metric.SingleTurnDialogRecorder`. Default: ``gen``.
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
         metric.add_metric(BleuCorpusMetric(self, gen_key=gen_key, \
             reference_allvocabs_key="resp_allvocabs"))
@@ -252,8 +252,8 @@ class MyMemBERTRetrieval(BERTLanguageProcessingBase):
             self.cpu_count = multiprocessing.cpu_count()
 
     def _load_data(self):
-        r'''Loading dataset, invoked by `BERTLanguageProcessingBase.__init__`
-        '''
+        r"""Loading dataset, invoked by `BERTLanguageProcessingBase.__init__`
+        """
         print('begin load data...')
         begin_time = time.time()
         origin_data = {}
@@ -461,7 +461,6 @@ class MyMemBERTRetrieval(BERTLanguageProcessingBase):
         res['resp_ids'] = resp_ids
         res['resp_mask'] = resp_mask
 
-
         max_kg_num = max([len(self.data[key]['kg'][idx]) for idx in indexes])
         res["kg_h_length"] = np.zeros((batch_size, max_kg_num), dtype=int)
         res["kg_hr_length"] = np.zeros((batch_size, max_kg_num), dtype=int)
@@ -486,15 +485,13 @@ class MyMemBERTRetrieval(BERTLanguageProcessingBase):
             for kgid in self.data[key]['kg_index'][idx]:
                 res['kg_index'][i, kgid] = 1
 
-
         for k in ['kg_h_length', 'kg_hr_length', 'kg_hrt_length', 'kg', 'kg_index']:
             res[k] = res[k].repeat(self.num_choices, 0)
-
 
         return res
 
     def get_inference_metric(self, gen_key="gen"):
-        '''Get metrics for inference.
+        """Get metrics for inference.
 
         It contains:
 
@@ -507,10 +504,10 @@ class MyMemBERTRetrieval(BERTLanguageProcessingBase):
                 :class:`.metric.SingleTurnDialogRecorder`. Default: ``gen``.
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
-        metric.add_metric(BleuCorpusMetric(self, gen_key=gen_key, \
-            reference_allvocabs_key="resp_allvocabs"))
+        metric.add_metric(BleuCorpusMetric(self, gen_key=gen_key,
+                                           reference_allvocabs_key="resp_allvocabs"))
         metric.add_metric(SingleTurnDialogRecorder(self, gen_key=gen_key))
         metric.add_metric(SingleTurnDistinct(self, gen_key=gen_key))
         return metric

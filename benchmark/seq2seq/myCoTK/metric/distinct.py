@@ -1,5 +1,6 @@
 from cotk.metric import MetricBase
 
+
 class SingleTurnDistinct(MetricBase):
     _name = 'SingleTurnDistinct'
     _version = 1
@@ -43,6 +44,7 @@ class SingleTurnDistinct(MetricBase):
         for k in range(1, 5):
             ret["distict_%d" % k] = self.calc_distinct_k(k)
         return ret
+
 
 class MultiTurnDistinct(MetricBase):
     _name = 'MultiTurnDistinct'

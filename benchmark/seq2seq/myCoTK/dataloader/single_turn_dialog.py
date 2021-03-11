@@ -27,10 +27,9 @@ class MyLM(SingleTurnDialog):
         self._invalid_vocab_times = invalid_vocab_times
         super(MyLM, self).__init__()
 
-
     def _load_data(self):
-        r'''Loading dataset, invoked during the initialization of :class:`SingleTurnDialog`.
-        '''
+        r"""Loading dataset, invoked during the initialization of :class:`SingleTurnDialog`.
+        """
         origin_data = {}
         vocab = {}
 
@@ -56,9 +55,9 @@ class MyLM(SingleTurnDialog):
                             count_token(tmp_sent)
                             if 'attrs' in messages[0]:
                                 for attr in messages[0]['attrs']:
-                                    h = jieba.lcut(attr['zsname'])
-                                    r = jieba.lcut(attr['zsattrname'])
-                                    t = jieba.lcut(attr['zsattrvalue'])
+                                    h = jieba.lcut(attr['name'])
+                                    r = jieba.lcut(attr['attrname'])
+                                    t = jieba.lcut(attr['attrvalue'])
                                     count_token(h + r + t)
 
                         nxt_sent = jieba.lcut(messages[i + 1]['message'])
@@ -67,9 +66,9 @@ class MyLM(SingleTurnDialog):
                         count_token(nxt_sent)
                         if 'attrs' in messages[i + 1]:
                             for attr in messages[i + 1]['attrs']:
-                                h = jieba.lcut(attr['zsname'])
-                                r = jieba.lcut(attr['zsattrname'])
-                                t = jieba.lcut(attr['zsattrvalue'])
+                                h = jieba.lcut(attr['name'])
+                                r = jieba.lcut(attr['attrname'])
+                                t = jieba.lcut(attr['attrvalue'])
                                 count_token(h + r + t)
 
                         i += 1
@@ -87,9 +86,9 @@ class MyLM(SingleTurnDialog):
                             count_token(post_sent)
                             if 'attrs' in messages[0]:
                                 for attr in messages[0]['attrs']:
-                                    h = jieba.lcut(attr['zsname'])
-                                    r = jieba.lcut(attr['zsattrname'])
-                                    t = jieba.lcut(attr['zsattrvalue'])
+                                    h = jieba.lcut(attr['name'])
+                                    r = jieba.lcut(attr['attrname'])
+                                    t = jieba.lcut(attr['attrvalue'])
                                     count_token(h + r + t)
 
                         nxt_sent = jieba.lcut(messages[i + 1]['message'])
@@ -101,9 +100,9 @@ class MyLM(SingleTurnDialog):
                         count_token(nxt_sent)
                         if 'attrs' in messages[i + 1]:
                             for attr in messages[i + 1]['attrs']:
-                                h = jieba.lcut(attr['zsname'])
-                                r = jieba.lcut(attr['zsattrname'])
-                                t = jieba.lcut(attr['zsattrvalue'])
+                                h = jieba.lcut(attr['name'])
+                                r = jieba.lcut(attr['attrname'])
+                                t = jieba.lcut(attr['attrvalue'])
                                 count_token(h + r + t)
 
                         i += 1
@@ -156,9 +155,8 @@ class MyLM(SingleTurnDialog):
 
         return vocab_list, valid_vocab_len, data, data_size
 
-
     def get_inference_metric(self, gen_key="gen"):
-        '''Get metrics for inference.
+        """Get metrics for inference.
 
         It contains:
 
@@ -172,7 +170,7 @@ class MyLM(SingleTurnDialog):
 
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
         metric.add_metric(BleuCorpusMetric(self, gen_key=gen_key, reference_allvocabs_key="resp_allvocabs"))
         metric.add_metric(SingleTurnDialogRecorder(self, gen_key=gen_key))
@@ -223,18 +221,18 @@ class MySeq2Seq(SingleTurnDialog):
                     count_token(nxt_sent)
                     if 'attrs' in messages[i + 1]:
                         for attr in messages[i + 1]['attrs']:
-                            h = jieba.lcut(attr['zsname'])
-                            r = jieba.lcut(attr['zsattrname'])
-                            t = jieba.lcut(attr['zsattrvalue'])
+                            h = jieba.lcut(attr['name'])
+                            r = jieba.lcut(attr['attrname'])
+                            t = jieba.lcut(attr['attrvalue'])
                             count_token(h + r + t)
 
                     if i == 0:
                         count_token(tmp_sent)
                         if 'attrs' in messages[0]:
                             for attr in messages[0]['attrs']:
-                                h = jieba.lcut(attr['zsname'])
-                                r = jieba.lcut(attr['zsattrname'])
-                                t = jieba.lcut(attr['zsattrvalue'])
+                                h = jieba.lcut(attr['name'])
+                                r = jieba.lcut(attr['attrname'])
+                                t = jieba.lcut(attr['attrvalue'])
                                 count_token(h + r + t)
 
                     i += 1
@@ -305,7 +303,7 @@ class MySeq2Seq(SingleTurnDialog):
         return res
 
     def get_inference_metric(self, gen_key="gen"):
-        '''Get metric for inference.
+        """Get metric for inference.
 
         It contains:
 
@@ -319,7 +317,7 @@ class MySeq2Seq(SingleTurnDialog):
 
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
         metric.add_metric(BleuCorpusMetric(self, gen_key=gen_key, reference_allvocabs_key="resp_allvocabs"))
         metric.add_metric(SingleTurnResponseRecorder(self, gen_key=gen_key))
@@ -340,8 +338,8 @@ class MyMemSeq2Seq(SingleTurnDialog):
         super(MyMemSeq2Seq, self).__init__()
 
     def _load_data(self):
-        r'''Loading dataset, invoked during the initialization of :class:`SingleTurnDialog`.
-        '''
+        r"""Loading dataset, invoked during the initialization of :class:`SingleTurnDialog`.
+        """
         origin_data = {}
         vocab = {}
 
@@ -362,9 +360,9 @@ class MyMemSeq2Seq(SingleTurnDialog):
                     kg_index.append([])
                     if 'attrs' in message:
                         for attr in message['attrs']:
-                            h = jieba.lcut(attr['zsname'])
-                            r = jieba.lcut(attr['zsattrname'])
-                            t = jieba.lcut(attr['zsattrvalue'])
+                            h = jieba.lcut(attr['name'])
+                            r = jieba.lcut(attr['attrname'])
+                            t = jieba.lcut(attr['attrvalue'])
                             k = tuple((tuple(h), tuple(r), tuple(t)))
                             if k not in kg_dict:
                                 kg_dict[k] = len(kg)
@@ -426,7 +424,6 @@ class MyMemSeq2Seq(SingleTurnDialog):
 
         return vocab_list, valid_vocab_len, data, data_size
 
-
     def get_batch(self, key, indexes):
         if key not in self.key_name:
             raise ValueError("No set named %s." % key)
@@ -478,7 +475,7 @@ class MyMemSeq2Seq(SingleTurnDialog):
         return res
 
     def get_inference_metric(self, gen_key="gen"):
-        '''Get metrics for inference.
+        """Get metrics for inference.
 
         It contains:
 
@@ -492,7 +489,7 @@ class MyMemSeq2Seq(SingleTurnDialog):
 
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
         metric.add_metric(BleuCorpusMetric(self, gen_key=gen_key, reference_allvocabs_key="resp_allvocabs"))
         metric.add_metric(SingleTurnResponseRecorder(self, gen_key=gen_key))

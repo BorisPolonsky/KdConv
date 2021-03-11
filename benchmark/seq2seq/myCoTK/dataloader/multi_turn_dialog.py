@@ -29,8 +29,8 @@ class MyHRED(MultiTurnDialog):
         super(MyHRED, self).__init__()
 
     def _load_data(self):
-        r'''Loading dataset, invoked during the initialization of :class:`MultiTurnDialog`.
-        '''
+        r"""Loading dataset, invoked during the initialization of :class:`MultiTurnDialog`.
+        """
         origin_data = {}
         vocab = {}
 
@@ -99,7 +99,7 @@ class MyHRED(MultiTurnDialog):
         return vocab_list, valid_vocab_len, data, data_size
 
     def get_batch(self, key, indexes):
-        '''{LanguageProcessingBase.GET_BATCH_DOC_WITHOUT_RETURNS}
+        """{LanguageProcessingBase.GET_BATCH_DOC_WITHOUT_RETURNS}
 
         Returns:
             (dict): A dict at least contains:
@@ -110,7 +110,7 @@ class MyHRED(MultiTurnDialog):
         Examples:
             {MultiTurnDialog.GET_BATCH_EXAMPLES_PART}
             }
-        '''
+        """
         if key not in self.key_name:
             raise ValueError("No set named %s." % key)
         batch_size = len(indexes)
@@ -152,7 +152,7 @@ class MyHRED(MultiTurnDialog):
         return res
 
     def get_teacher_forcing_metric(self, gen_log_prob_key="gen_log_prob", invalid_vocab=False):
-        '''Get metrics for teacher-forcing.
+        """Get metrics for teacher-forcing.
 
         It contains:
 
@@ -167,7 +167,7 @@ class MyHRED(MultiTurnDialog):
 
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
         metric.add_metric(
             PerplexityMetric(self, reference_allvocabs_key="resp_allvocabs", reference_len_key="resp_length",
@@ -175,7 +175,7 @@ class MyHRED(MultiTurnDialog):
         return metric
 
     def get_inference_metric(self, gen_key="gen"):
-        '''Get metric for inference.
+        """Get metric for inference.
 
         It contains:
 
@@ -189,7 +189,7 @@ class MyHRED(MultiTurnDialog):
 
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
         metric.add_metric(BleuCorpusMetric(self, gen_key=gen_key, reference_allvocabs_key="resp_allvocabs"))
         metric.add_metric(SingleTurnResponseRecorder(self, gen_key=gen_key))
@@ -211,8 +211,8 @@ class MyMemHRED(MultiTurnDialog):
 
 
     def _load_data(self):
-        r'''Loading dataset, invoked during the initialization of :class:`MultiTurnDialog`.
-        '''
+        r"""Loading dataset, invoked during the initialization of :class:`MultiTurnDialog`.
+        """
         origin_data = {}
         vocab = {}
 
@@ -300,7 +300,7 @@ class MyMemHRED(MultiTurnDialog):
 
 
     def get_batch(self, key, indexes):
-        '''{LanguageProcessingBase.GET_BATCH_DOC_WITHOUT_RETURNS}
+        """{LanguageProcessingBase.GET_BATCH_DOC_WITHOUT_RETURNS}
 
         Returns:
             (dict): A dict at least contains:
@@ -311,7 +311,7 @@ class MyMemHRED(MultiTurnDialog):
         Examples:
             {MultiTurnDialog.GET_BATCH_EXAMPLES_PART}
             }
-        '''
+        """
         if key not in self.key_name:
             raise ValueError("No set named %s." % key)
         batch_size = len(indexes)
@@ -381,7 +381,7 @@ class MyMemHRED(MultiTurnDialog):
         return res
 
     def get_teacher_forcing_metric(self, gen_log_prob_key="gen_log_prob", invalid_vocab=False):
-        '''Get metrics for teacher-forcing.
+        """Get metrics for teacher-forcing.
 
         It contains:
 
@@ -396,7 +396,7 @@ class MyMemHRED(MultiTurnDialog):
 
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
         metric.add_metric(
             PerplexityMetric(self, reference_allvocabs_key="resp_allvocabs", reference_len_key="resp_length",
@@ -404,7 +404,7 @@ class MyMemHRED(MultiTurnDialog):
         return metric
 
     def get_inference_metric(self, gen_key="gen"):
-        '''Get metric for inference.
+        """Get metric for inference.
 
         It contains:
 
@@ -418,7 +418,7 @@ class MyMemHRED(MultiTurnDialog):
 
         Returns:
             A :class:`.metric.MetricChain` object.
-        '''
+        """
         metric = MetricChain()
         metric.add_metric(BleuCorpusMetric(self, gen_key=gen_key, reference_allvocabs_key="resp_allvocabs"))
         metric.add_metric(SingleTurnResponseRecorder(self, gen_key=gen_key))

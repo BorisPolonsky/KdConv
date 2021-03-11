@@ -3,6 +3,7 @@ import os
 from cotk.wordvector import WordVector
 from cotk._utils import get_resource_file_path
 
+
 class TencentChinese(WordVector):
     def __init__(self, file_id="wordvector/chinese"):
         super().__init__()

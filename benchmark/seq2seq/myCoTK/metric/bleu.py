@@ -11,13 +11,13 @@ from cotk._utils import hooks
 
 
 class BleuCorpusMetric(MetricBase):
-    '''Metric for calculating BLEU.
+    """Metric for calculating BLEU.
 
     Arguments:
         {MetricBase.DATALOADER_ARGUMENTS}
         {MetricBase.REFERENCE_ALLVOCABS_KEY_ARGUMENTS}
         {MetricBase.GEN_KEY_ARGUMENTS}
-    '''
+    """
 
     _name = 'BleuCorpusMetric'
     _version = 1
@@ -34,7 +34,7 @@ class BleuCorpusMetric(MetricBase):
         self.hyps = []
 
     def forward(self, data):
-        '''Processing a batch of data.
+        """Processing a batch of data.
 
         Arguments:
             data (dict): A dict at least contains the following keys:
@@ -49,7 +49,7 @@ class BleuCorpusMetric(MetricBase):
                     ...     reference_allvocabs_key: [[2,4,3], [2,5,6,3]]
                     ...        gen_key: [[4,5,3], [6,7,8,3]]
                     ... }
-        '''
+        """
         super().forward(data)
         gen = data[self.gen_key]
         resp = data[self.reference_allvocabs_key]
@@ -72,14 +72,14 @@ class BleuCorpusMetric(MetricBase):
 
     @hooks.hook_metric_close
     def close(self):
-        '''
+        """
         Returns:
             (dict): Return a dict which contains
 
             * **bleu**: bleu value.
             * **bleu hashvalue**: hash value for bleu metric, same hash value stands
               for same evaluation settings.
-        '''
+        """
         result = super().close()
         if (not self.hyps) or (not self.refs):
             raise RuntimeError("The metric has not been forwarded data correctly.")
